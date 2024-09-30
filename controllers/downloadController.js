@@ -13,4 +13,4 @@ const downloadController = async (req,res) => {
         return res.status(500).send({ message: 'Server error', error });
     }
 }
-module.exports = downloadController;chrom
+module.exports = downloadController;

@@ -39,7 +39,7 @@ const uploadFiles = async (req, res) => {
     response.findTokenExpires = findTokenExpires;
     await response.save();
     let downloadUrl = {
-      url:`http://localhost:5173/download/${findToken}`,
+      url:`${process.env.CLIENT_URL}/download/${findToken}`,
     }
     return res.status(200).send({ message: 'Files uploaded successfully', downloadUrl});
   } catch (error) {
