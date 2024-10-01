@@ -6,6 +6,9 @@ const crypto = require("crypto");
 // Controller function to upload multiple files
 const uploadFiles = async (req, res) => {
   try {
+    if(!req.user){
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
     const filesName = []
     if (!req.files || req.files.length === 0) {
       return res.status(400).send({ message: 'No files uploaded' });
@@ -29,7 +32,7 @@ const uploadFiles = async (req, res) => {
     const urls = await Promise.all(uploadPromises); // Wait for all uploads to finish
 
     //save urls to database
-    const response = await fileModel({fileUrl:urls,filesName});
+    const response = await fileModel({fileUrl:urls,filesName,user:req.user});
 
     // use crypto to generate a token
     const findToken = crypto.randomBytes(16).toString('hex');
@@ -43,6 +46,7 @@ const uploadFiles = async (req, res) => {
     }
     return res.status(200).send({ message: 'Files uploaded successfully', downloadUrl});
   } catch (error) {
+    console.log(error)
     return res.status(500).send({ message: 'Server error', error });
   }
 };
