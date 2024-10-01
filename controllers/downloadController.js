@@ -7,8 +7,9 @@ const downloadController = async (req,res) => {
         if (!response) {
             return res.status(404).send({ message: 'No file found with that token' });
         }
-        
-        res.status(200).json({message:"urls",urls:response.fileUrl,fileNames:response.filesName})
+        let urls = response.fileUrl
+        let fileNames = response.filesName
+        res.status(200).json({message:"urls",urls,fileNames})
     } catch (error) {
         return res.status(500).send({ message: 'Server error', error });
     }
