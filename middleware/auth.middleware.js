@@ -1,25 +1,30 @@
 const jwt = require('jsonwebtoken');
 
 const authMiddleware = (req, res, next) => {
-    const token = req.cookies.token;
+    console.log('authMiddleware - Headers:', req.headers);
+    console.log('authMiddleware - Cookies:', req.cookies);
 
-    console.log('Token:', token);
-    // If not in cookies, check Authorization header
+    let token = req.cookies.token;
+    
     if (!token && req.headers.authorization) {
         token = req.headers.authorization.split(' ')[1];
     }
 
-    console.log('Token:', token);
+    console.log('authMiddleware - Token:', token);
+
     if (!token) {
-        return res.status(401).json({ message: 'Unauthorized' });
+        return res.status(401).json({ message: 'Unauthorized: No token provided' });
     }
+
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.user = decoded.id;
+        console.log('authMiddleware - Decoded user:', decoded);
+        next();
     } catch (error) {
-        return res.status(401).json({ message: 'Unauthorized' });
+        console.error('Token verification error:', error);
+        return res.status(401).json({ message: 'Unauthorized: Invalid token' });
     }
-    next();
 }
 
 module.exports = authMiddleware;

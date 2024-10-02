@@ -9,7 +9,20 @@ const deleteFileController = require('../controllers/deleteFileController');
 const router = express.Router();
 
 // POST route to upload multiple files
-router.post('/upload',authMiddleware, upload.array('files', 10), uploadFiles); // Accept up to 10 files
+router.post('/upload', 
+    (req, res, next) => {
+        console.log('Request headers:', req.headers);
+        console.log('Request cookies:', req.cookies);
+        next();
+    },
+    authMiddleware, 
+    upload.array('files', 10), 
+    (req, res, next) => {
+        console.log('After authMiddleware - User:', req.user);
+        next();
+    },
+    uploadFiles
+); // Accept up to 10 files
 
 // GET route to download multiple files as a zip
 router.get('/download/:token', downloadController);
