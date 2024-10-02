@@ -10,13 +10,9 @@ const deleteFileController =  async (req, res) => {
             return res.status(404).json({ message: "File not found" });
         }
 
-        // Import cloudinary configuration
-
         // Loop through the fileUrl array and destroy each file from Cloudinary
         for (const url of file.fileUrl) {
-            console.log("url ",url);
             const publicId = url.split('/').pop().split('.')[0];
-            console.log("publicId ",publicId);
             await new Promise((resolve, reject) => {
                 cloudinary.uploader.destroy(publicId, (error, result) => {
                     if (error) {

@@ -7,6 +7,7 @@ const fileSchema = new mongoose.Schema({
         ref:'userModel',
         required:true
     },
+    downloadUrl:String,
     findToken:String,
     findTokenExpires:Date,
     createdAt: { type: Date, default: Date.now }

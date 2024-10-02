@@ -25,7 +25,7 @@ const loginController = async (req, res) => {
             secure:process.env.NODE_ENV,
             maxAge:1*24*60*60*1000,
             sameSite:"None"
-        });
+        }); 
         res.status(200).json({ message: 'Login successful', token, success: true });
 
     } catch (error) {

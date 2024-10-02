@@ -40,6 +40,8 @@ const uploadFiles = async (req, res) => {
 
     response.findToken = findToken;
     response.findTokenExpires = findTokenExpires;
+    const url=`${process.env.CLIENT_URL}/download/${findToken}`
+    response.downloadUrl=url
     await response.save();
     let downloadUrl = {
       url:`${process.env.CLIENT_URL}/download/${findToken}`,

@@ -4,7 +4,7 @@ const authMiddleware = (req, res, next) => {
 
     const authHeader = req.headers['authorization'];
     let token;
-
+    // console.log()
     if (authHeader && authHeader.startsWith('Bearer ')) {
         token = authHeader.split(' ')[1]; // Extract the token after "Bearer "
     }
